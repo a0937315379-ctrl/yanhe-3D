@@ -1,11 +1,17 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>延和學習群島｜會回應的3D校園 V0.3</title><style>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>延和學習群島｜會回應的3D校園 V0.4 音樂音效版</title><style>
 *{box-sizing:border-box}body{margin:0;overflow:hidden;background:#bfe9ed;font-family:system-ui,"Noto Sans TC",sans-serif;color:#173651}canvas{display:block}.hud{position:fixed;z-index:5;pointer-events:none}.top{top:14px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.pill{background:#fffffff0;border:1px solid #e5edf1;border-radius:30px;padding:9px 15px;box-shadow:0 6px 17px #26535f24;font-weight:750}.top .pill:nth-child(2){font-size:13px;color:#536f7e}.bottom{bottom:18px;left:50%;transform:translateX(-50%);min-width:min(90vw,520px);text-align:center}.panel{pointer-events:auto;position:fixed;z-index:20;top:50%;left:50%;transform:translate(-50%,-50%);background:#fffdf7f9;border:2px solid #f8fcfd;border-radius:24px;padding:24px;box-shadow:0 22px 80px #13495c66;width:min(92vw,530px);max-height:85vh;overflow:auto}.hidden{display:none!important}.panel h1{margin:0 0 12px;font-size:27px}.panel h2{margin:4px 0 12px;font-size:22px}.panel p{line-height:1.65}.btn{appearance:none;border:0;cursor:pointer;background:#7256c9;color:white;border-radius:13px;font-weight:780;font-size:16px;padding:13px 16px;box-shadow:0 5px 0 #5142a1;touch-action:manipulation}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #5142a1}.btn.alt{background:#e3f1f5;color:#16465b;box-shadow:0 5px 0 #b6d5df}.choices{display:grid;gap:10px}.choices button{text-align:left;line-height:1.45}.tag{color:#714bb0;font-weight:800;font-size:14px}.control{position:fixed;z-index:7;bottom:18px;display:grid;gap:4px;user-select:none;touch-action:none}.control.left{left:16px;grid-template-columns:repeat(3,53px);grid-template-rows:repeat(2,51px)}.control.right{right:16px;grid-template-columns:repeat(2,57px);grid-template-rows:repeat(2,54px)}.cbtn{border:2px solid #ffffffa6;background:#164158a8;color:white;border-radius:15px;font-size:22px;font-weight:bold;display:grid;place-items:center;touch-action:none}.cbtn.down{background:#8758aa}.map-label{background:#fff;border-radius:10px;padding:4px 8px;box-shadow:0 4px 10px #1c526b33}.hiddenmobile{display:none}.subtle{font-size:13px;color:#587487}.result{background:#f0f6f3;padding:12px 14px;border-radius:13px;margin:10px 0;line-height:1.65}.choice-bad{border-left:5px solid #dbad72}.choice-good{border-left:5px solid #74a991}.note{font-size:13px;color:#587487}.spark{color:#b47b34;font-weight:800}@media (pointer:fine){.control{opacity:.6}}@media (max-width:600px){.top .pill:nth-child(2){max-width:50%;font-size:11px}.control.left{grid-template-columns:repeat(3,48px)}.control.right{grid-template-columns:repeat(2,50px)}.bottom{bottom:139px;font-size:13px}}
+
+.audio-bar{position:fixed;z-index:12;top:65px;right:15px;display:flex;align-items:center;gap:9px;background:#fffdf7ed;border:1px solid #e3eef0;border-radius:15px;padding:8px 12px;box-shadow:0 5px 18px #214f6526;font-size:13px;font-weight:750}
+.audio-bar button{border:0;border-radius:10px;padding:8px 10px;background:#e4ecfb;color:#243963;font-weight:800;cursor:pointer}
+.audio-bar input{width:95px;accent-color:#735dc4}
+@media(max-width:600px){.audio-bar{top:65px;right:8px;padding:6px;gap:4px;font-size:11px}.audio-bar input{width:70px}}
 </style></head><body>
 <div class="hud top"><div class="pill" id="zone">🏝️ 延和學習群島 · 地圖</div><div class="pill" id="score">社會技巧館｜0 / 3 顆星</div></div>
+<div class="audio-bar" aria-label="遊戲聲音控制"><button id="soundToggle" aria-pressed="true" title="開關背景音樂及音效">🔊 聲音開</button><label for="soundVolume">音量</label><input id="soundVolume" type="range" min="0" max="100" value="35" aria-label="遊戲音量"></div>
 <div class="hud bottom pill" id="hint">點選島上的建築，進入 3D 學習場景</div>
 <div class="control left" id="movePad"><div></div><div class="cbtn" data-k="forward">▲</div><div></div><div class="cbtn" data-k="left">◀</div><div class="cbtn" data-k="back">▼</div><div class="cbtn" data-k="right">▶</div></div>
 <div class="control right" id="lookPad"><div class="cbtn" data-k="turnLeft">↶</div><div class="cbtn" data-k="turnRight">↷</div><div class="cbtn down" id="act">對話</div><div class="cbtn down" id="exit">地圖</div></div>
-<div class="panel" id="intro"><div class="tag">LOW-POLY 3D · 校園學習世界</div><h1>🏝️ 延和學習群島</h1><p>參考你提供的影片：從島嶼地圖進入建築，在室內以第一人稱探索。</p><p>🎯 本次試玩：<b>社會情緒與社會技巧前導課</b><br>三個情境：排隊、被誤會、廣告配樂意見不同。<br>每次先選感受，再看選擇後果；可以修正自己的說法。</p><p style="font-size:13px;color:#5a7280">電腦：WASD移動、方向鍵轉向、空白鍵互動；平板：螢幕方向鍵、轉向鍵和「對話」。</p><button class="btn" id="start">開始探索</button></div>
+<div class="panel" id="intro"><div class="tag">LOW-POLY 3D · 校園學習世界</div><h1>🏝️ 延和學習群島</h1><p>參考你提供的影片：從島嶼地圖進入建築，在室內以第一人稱探索。</p><p>🎯 本次試玩：<b>社會情緒與社會技巧前導課</b><br>三個情境：排隊、被誤會、廣告配樂意見不同。<br>每次先選感受，再看選擇後果；可以修正自己的說法。</p><p style="font-size:13px;color:#5a7280">電腦：WASD移動、方向鍵轉向、空白鍵互動；平板：螢幕方向鍵、轉向鍵和「對話」。<br><b>🎶 點開始後播放柔和背景音樂；右上角可以靜音、調音量。</b></p><button class="btn" id="start">開始探索</button></div>
 <div class="panel hidden" id="dialog"><div class="tag" id="step">情境任務</div><h2 id="question"></h2><p id="story"></p><div class="choices" id="choices"></div><div id="feedback" aria-live="polite"></div><button class="btn alt hidden" id="next">繼續探索</button></div>
 <div class="panel hidden" id="done"><h1>🏆 校園溝通冒險完成</h1><p>你已體驗三個情境，看看不同說法如何改變故事。</p><div id="report"></div><p><b>停一下 → 想一想 → 好好說</b></p><div class="choices"><button class="btn" id="copyReport">複製我的學習回顧</button><button class="btn alt" id="again">重新探索</button></div><p class="note">這個版本的紀錄只保存在當次開啟的畫面；沒有上傳個人資料或連接教師監控。</p></div>
 <script type="module">
@@ -13,6 +19,72 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.m
 const $=id=>document.getElementById(id);
 let scene,camera,renderer,room='map',yaw=0,px=0,pz=4,keys={},currentTask=0,completed=new Set(),lock=false;
 let phase='emotion',chosenEmotion='',firstAction=-1,chosenAction=-1,tryCount=0,diary={},musicPlayed=false,audioCtx=null;
+// V0.4: Web Audio 內建原創輕音樂與 UI 音效，無外部音樂檔；需使用者點擊啟動。
+const gameAudio={ctx:null,master:null,music:null,effects:null,on:true,volume:.35,next:0,step:0,timer:null,started:false};
+function audioReady(){
+  try{
+    if(!gameAudio.ctx){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC)return false;
+      const c=gameAudio.ctx=new AC();
+      gameAudio.master=c.createGain();gameAudio.music=c.createGain();gameAudio.effects=c.createGain();
+      gameAudio.master.gain.value=gameAudio.volume;
+      gameAudio.music.gain.value=.21;gameAudio.effects.gain.value=.50;
+      gameAudio.music.connect(gameAudio.master);gameAudio.effects.connect(gameAudio.master);
+      gameAudio.master.connect(c.destination);
+    }
+    if(gameAudio.ctx.state==='suspended')gameAudio.ctx.resume();
+    return true;
+  }catch(e){return false}
+}
+function tone(freq,at,duration,type='sine',gain=.12,dest=null){
+  if(!gameAudio.ctx||!gameAudio.on)return;
+  const c=gameAudio.ctx,o=c.createOscillator(),g=c.createGain(),end=at+duration;
+  o.type=type;o.frequency.setValueAtTime(freq,at);
+  g.gain.setValueAtTime(.0001,at);
+  g.gain.exponentialRampToValueAtTime(Math.max(.0002,gain),at+.025);
+  g.gain.exponentialRampToValueAtTime(.0001,end);
+  o.connect(g);g.connect(dest||gameAudio.effects);o.start(at);o.stop(end+.025);
+}
+function uiSound(kind='tap'){
+  if(!gameAudio.on||!audioReady())return;
+  const t=gameAudio.ctx.currentTime+.01;
+  if(kind==='complete'){tone(523.25,t,.22,'sine',.19);tone(659.25,t+.13,.22,'sine',.19);tone(783.99,t+.27,.42,'sine',.2)}
+  else if(kind==='retry'){tone(392,t,.15,'triangle',.095);tone(349.23,t+.09,.23,'triangle',.08)}
+  else if(kind==='choice'){tone(659.25,t,.11,'sine',.10);tone(880,t+.085,.18,'sine',.11)}
+  else if(kind==='enter'){tone(392,t,.16,'sine',.10);tone(523.25,t+.13,.22,'sine',.13)}
+  else tone(660,t,.065,'sine',.065);
+}
+// 80 BPM 舒緩原創循環；地圖明亮、室內溫暖，採短音型減少聲音干擾。
+const ambientMelody=[659.25,783.99,880,783.99,659.25,587.33,523.25,587.33,659.25,783.99,987.77,880,783.99,659.25,587.33,523.25];
+const ambientChord=[[261.63,329.63,392],[220,261.63,329.63],[174.61,220,261.63],[196,246.94,293.66]];
+function scheduleAmbient(){
+  const a=gameAudio;
+  if(!a.ctx||!a.on||!a.started||a.ctx.state!=='running')return;
+  let limit=a.ctx.currentTime+.28;
+  if(a.next<a.ctx.currentTime-.5)a.next=a.ctx.currentTime+.05;
+  while(a.next<limit){
+    const k=a.step%16,at=a.next;
+    let freq=ambientMelody[k];
+    if(room==='inside')freq*=.5;
+    if(k%2===0)tone(freq,at,.40,'sine',.10,a.music);
+    if(k%4===0){
+      const chord=ambientChord[Math.floor(a.step/4)%4];
+      chord.forEach((f,j)=>tone(f*(room==='inside'?1:.5),at+j*.012,1.25,'sine',.038,a.music));
+    }
+    a.step++;a.next+=.375;
+  }
+}
+function startAmbient(){if(!audioReady())return;gameAudio.started=true;gameAudio.next=gameAudio.ctx.currentTime+.08;if(!gameAudio.timer)gameAudio.timer=setInterval(scheduleAmbient,120);scheduleAmbient()}
+function updateAudioUI(){
+  $('soundToggle').textContent=gameAudio.on?'🔊 聲音開':'🔇 已靜音';
+  $('soundToggle').setAttribute('aria-pressed',String(gameAudio.on));
+  if(gameAudio.master)gameAudio.master.gain.setTargetAtTime(gameAudio.on?gameAudio.volume:0,gameAudio.ctx.currentTime,.035);
+}
+$('soundToggle').addEventListener('click',()=>{let was=gameAudio.on;gameAudio.on=!was;if(gameAudio.on){startAmbient();uiSound('choice')}updateAudioUI()});
+$('soundVolume').addEventListener('input',e=>{gameAudio.volume=Number(e.target.value)/100;updateAudioUI()});
+// 所有操作按鈕統一有聲音回饋，選項／完成另有特別旋律。
+document.addEventListener('click',e=>{let b=e.target.closest('button');if(!b||b.id==='soundToggle')return;if(b.closest('#choices')){uiSound('choice')}else if(b.id==='act'){uiSound('enter')}else if(b.id==='start'){startAmbient();uiSound('enter')}else if(b.id==='again'){uiSound('enter')}else{uiSound('tap')}},true);
 const tasks=[
 {name:'走廊｜有人插隊',story:'你正在排隊領取教材，一位同學突然走到你前面。你很在意排隊順序。',feelings:['生氣','委屈','疑惑','緊張'],options:['提高音量：「你給我出去！」','先確認：「我剛剛排在這裡，可以請你到後面嗎？」','推開對方，自己站回去'],good:1,outcomes:['對方也大聲回嘴，其他同學開始看過來，衝突變得更激烈。','對方發現自己沒有注意隊伍，說「抱歉，我去後面」。','對方被推得不舒服，開始生氣，老師需要來處理。'],reply:'同學：「啊，抱歉，我剛剛沒看到隊伍。」',tip:'不舒服可以說出來，重要的是把要求說清楚，不用攻擊對方。'},
 {name:'教室｜被組員誤會',story:'組員說你沒有做自己的工作，但其實你已經完成，只是還沒告訴大家。',feelings:['難過','生氣','尷尬','不安'],options:['回嗆：「你也沒做好啊！」','沉默離開，不再討論','平靜說明：「我已經完成了，我們一起確認進度好嗎？」'],good:2,outcomes:['組員覺得被指責，兩人開始爭吵，工作沒有推進。','其他人不知道發生什麼事，誤會仍然存在。','組員看見你的成果，說「原來是我沒注意到，謝謝你說清楚」。'],reply:'組員：「原來你已經做完了，我們再對一次！」',tip:'先說事實和感受，再邀請對方一起找解決方式。'},
@@ -23,15 +95,15 @@ function emotionPhase(){phase='emotion';let t=tasks[currentTask];screen('第一�
 function pausePhase(){phase='pause';screen('第二步｜停一下，想一想','你感到「'+chosenEmotion+'」。在開口前，先想想你的目標：讓事情更清楚，而不是讓衝突升高。','調節小站 · '+tasks[currentTask].name);button('🌿 我先深呼吸，再看看有哪些做法',actionPhase,'');button('↶ 重新選擇我的感受',emotionPhase);}
 function actionPhase(){phase='action';let t=tasks[currentTask];screen('第三步｜你會怎麼回應？',t.story,'做出選擇 · '+t.name);if(currentTask===2){button('🎹 聽柔和慢速短旋律',()=>soundDemo(false));button('🥁 聽活潑快速短旋律',()=>soundDemo(true));$('feedback').innerHTML='<p class="note">示範音效為程式即時合成的簡短旋律，非原本正式音樂課的 A／B／C 音檔。</p>';}t.options.forEach((o,i)=>button((i+1)+'．'+o,()=>outcomePhase(i)));}
 function outcomePhase(i){phase='outcome';let t=tasks[currentTask];chosenAction=i;if(firstAction===-1)firstAction=i;tryCount++;screen('事情接著發生了……',t.outcomes[i],'故事反應 · '+t.name);$('feedback').innerHTML='<div class="result '+(i===t.good?'choice-good':'choice-bad')+'"><b>人物反應</b><p>'+ (i===t.good?t.reply:'這個回應可能讓事情更難解決。')+'</p><p>'+t.tip+'</p></div>';if(i===t.good){button('⭐ 收集溝通之星，繼續探索',finishTask,'');}else{button('🔄 我想換一種說法',actionPhase,'');button('💬 先看看溝通提示，再試一次',()=>{$('feedback').innerHTML+='<p class="result">試試看：說清楚自己的感受、描述具體情況，再提出一個可行方法。</p>'});}}
-function finishTask(){completed.add(currentTask);let t=tasks[currentTask];diary[currentTask]={name:t.name,emotion:chosenEmotion,first:t.options[firstAction],final:t.options[chosenAction],revised:firstAction!==chosenAction,attempts:tryCount};$('dialog').classList.add('hidden');lock=false;$('score').textContent='社會技巧館｜'+completed.size+' / 3 顆星';if(completed.size===3){showReport()}else{$('hint').textContent='已完成 '+completed.size+' / 3 個情境，繼續走近其他人物！'} }
-function showReport(){lock=true;let d=Object.values(diary).map(x=>'<div class="result"><b>'+x.name+'</b><p>我的感受：'+x.emotion+'</p><p>最後選擇：'+x.final+'</p><p>'+(x.revised?'我看見後果後，重新調整了說法。':'我選擇了一種較能幫助溝通的說法。')+'</p></div>').join('');$('report').innerHTML=d;$('done').classList.remove('hidden')}
+function finishTask(){uiSound('complete');completed.add(currentTask);let t=tasks[currentTask];diary[currentTask]={name:t.name,emotion:chosenEmotion,first:t.options[firstAction],final:t.options[chosenAction],revised:firstAction!==chosenAction,attempts:tryCount};$('dialog').classList.add('hidden');lock=false;$('score').textContent='社會技巧館｜'+completed.size+' / 3 顆星';if(completed.size===3){showReport()}else{$('hint').textContent='已完成 '+completed.size+' / 3 個情境，繼續走近其他人物！'} }
+function showReport(){uiSound('complete');lock=true;let d=Object.values(diary).map(x=>'<div class="result"><b>'+x.name+'</b><p>我的感受：'+x.emotion+'</p><p>最後選擇：'+x.final+'</p><p>'+(x.revised?'我看見後果後，重新調整了說法。':'我選擇了一種較能幫助溝通的說法。')+'</p></div>').join('');$('report').innerHTML=d;$('done').classList.remove('hidden')}
 function textReport(){return '延和3D校園｜學習回顧\n'+Object.values(diary).map(x=>x.name+'｜感受：'+x.emotion+'｜回應：'+x.final+'｜'+(x.revised?'曾調整選擇':'完成')).join('\n')+'\n我學會：停一下 → 想一想 → 好好說'}
-function soundDemo(fast=false){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();let now=audioCtx.currentTime;let notes=[392,440,494,587,494,440,392,330];notes.forEach((freq,i)=>{let osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=fast?'triangle':'sine';osc.frequency.value=freq;let start=now+i*(fast?.19:.4);gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(.13,start+.025);gain.gain.exponentialRampToValueAtTime(.001,start+(fast?.17:.37));osc.connect(gain).connect(audioCtx.destination);osc.start(start);osc.stop(start+(fast?.18:.39))})}catch(e){$('hint').textContent='裝置無法播放示範音效，請教師現場播放音樂'}}
+function soundDemo(fast=false){try{if(!gameAudio.on||!audioReady())return;audioCtx=gameAudio.ctx;let now=audioCtx.currentTime;let notes=[392,440,494,587,494,440,392,330];notes.forEach((freq,i)=>{let osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=fast?'triangle':'sine';osc.frequency.value=freq;let start=now+i*(fast?.19:.4);gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(.09*gameAudio.volume,start+.025);gain.gain.exponentialRampToValueAtTime(.001,start+(fast?.17:.37));osc.connect(gain).connect(audioCtx.destination);osc.start(start);osc.stop(start+(fast?.18:.39))})}catch(e){$('hint').textContent='裝置無法播放示範音效，請教師現場播放音樂'}}
 function init(){scene=new THREE.Scene();scene.background=new THREE.Color('#9be4e9');scene.fog=new THREE.Fog('#9be4e9',25,75);renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=false;document.body.prepend(renderer.domElement);camera=new THREE.PerspectiveCamera(67,innerWidth/innerHeight,.1,110);scene.add(new THREE.HemisphereLight(0xffffff,0x7994a0,2.3));let sun=new THREE.DirectionalLight(0xfff0d5,2.5);sun.position.set(-5,12,9);scene.add(sun);window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});renderer.domElement.addEventListener('click',e=>{if(room==='map'){let pt=new THREE.Vector2(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);let ray=new THREE.Raycaster();ray.setFromCamera(pt,camera);let hits=ray.intersectObjects(scene.children,true);let hit=hits.find(h=>h.object.userData.entry);if(hit)enterRoom(hit.object.userData.entry)}});animate()}
 function box(x,y,z,w,h,d,color,mat){let m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshLambertMaterial({color,flatShading:true}));m.position.set(x,y,z);scene.add(m);return m}function cylinder(x,y,z,r,h,color,sides=8){let m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,sides),new THREE.MeshLambertMaterial({color,flatShading:true}));m.position.set(x,y,z);scene.add(m);return m}function sphere(x,y,z,r,color){let m=new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),new THREE.MeshLambertMaterial({color,flatShading:true}));m.position.set(x,y,z);scene.add(m);return m}function clear(){while(scene.children.length){let o=scene.children[0];scene.remove(o);if(o.geometry)o.geometry.dispose()}scene.add(new THREE.HemisphereLight(0xffffff,0x7994a0,2.3));let l=new THREE.DirectionalLight(0xfff7db,2.6);l.position.set(-5,10,8);scene.add(l)}function tree(x,z){cylinder(x,.45,z,.17,.9,'#98775a',6);sphere(x,1.25,z,.75,['#93c6a9','#aeb6e4','#79bbbc'][Math.floor(Math.random()*3)])}
 function label(text,x,z){let can=document.createElement('canvas');can.width=512;can.height=128;let c=can.getContext('2d');c.fillStyle='#ffffffeb';c.beginPath();c.roundRect(10,10,492,108,30);c.fill();c.fillStyle='#203d60';c.font='bold 43px sans-serif';c.textAlign='center';c.fillText(text,256,81);let t=new THREE.CanvasTexture(can);let s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true}));s.position.set(x,3.6,z);s.scale.set(4.6,1.15,1);scene.add(s)}
-function map(){room='map';clear();$('zone').textContent='🏝️ 延和學習群島 · 地圖';$('hint').textContent='點選中央紫色「社會技巧館」進入第一人稱場景';$('movePad').classList.add('hidden');$('lookPad').classList.add('hidden');let sea=cylinder(0,-.75,0,35,.5,'#48cfd4',48);let island=cylinder(0,-.24,0,9,.7,'#fffaf0',12);cylinder(0,-.72,0,9.25,.28,'#d8bc8c',12);for(let i=0;i<14;i++){let a=i*Math.PI*2/14;tree(Math.cos(a)*7,Math.sin(a)*7)}let b=box(0,1,0,3.6,2.4,3.6,'#9c65d9');let roof=new THREE.Mesh(new THREE.ConeGeometry(3,2.2,6),new THREE.MeshLambertMaterial({color:'#784bbb',flatShading:true}));roof.position.set(0,3.25,0);scene.add(roof);b.userData.entry='social';roof.userData.entry='social';cylinder(0,.18,2.05,.85,.27,'#a8d3b7');label('🤝 社會技巧館',0,0);for(let [x,z,cl,txt] of [[-5,-3,'#83bde0','🎼 音樂魔法館'],[5,-3,'#f6b79e','🌿 生活應用館'],[5,4,'#e9bc66','🧩 跨域探究館']]){box(x,.8,z,1.8,1.6,1.8,cl);let a=new THREE.Mesh(new THREE.ConeGeometry(1.5,1.3,4),new THREE.MeshLambertMaterial({color:'#ffffff'}));a.position.set(x,2.2,z);a.rotation.y=Math.PI/4;scene.add(a);label(txt,x,z)}camera.position.set(10,15,18);camera.lookAt(0,0,0)}
-function enterRoom(){room='inside';clear();$('zone').textContent='🤝 社會技巧館 · 第一人稱探索';$('movePad').classList.remove('hidden');$('lookPad').classList.remove('hidden');$('hint').textContent='走近人物，按「對話」；情境有多種故事反應';box(0,-.25,0,24,.5,24,'#a77e62');box(0,4,-12,24,8,.5,'#c5ada0');box(-12,4,0,.5,8,24,'#d9c5bb');box(12,4,0,.5,8,24,'#d9c5bb');box(0,4,12,24,8,.5,'#ded4c9');box(4,1,-8,5,1,1.6,'#ad896d');for(let i=0;i<4;i++)box(4-i*2,.65,-8,1.0,.8,1,'#f6d8bb');box(-9,2,-11.6,2.8,3,.2,'#b8ecf5');box(8,2,-11.6,2.8,3,.2,'#b8ecf5');box(-10,2,1,2,3,1,'#87624f');for(let z=-5;z<8;z+=2.1)for(let x of [-4,4]){box(x,.65,z,2,.15,1.2,'#a47154');box(x,0.3,z-.4,.15,.6,.15,'#755741');box(x,.3,z+.4,.15,.6,.15,'#755741')};for(let i=0;i<3;i++){let z=-7+i*6;let x=i%2===0?-7:7;let s=cylinder(x,1.1,z,.5,2.0,['#f3bda9','#abc9f4','#d9a4d9'][i],9);sphere(x,2.4,z,.54,'#ffdec2');s.userData.task=i;let mark=sphere(x,3.45,z,.26,completed.has(i)?'#a8b4b4':'#ffdc4a');mark.userData.task=i;label(['同學甲｜排隊','同學乙｜誤會','同學丙｜配樂'][i],x,z)}px=0;pz=8;yaw=0;$('score').textContent='社會技巧館｜'+completed.size+' / 3 顆星'}
+function map(){room='map';gameAudio.step=0;clear();$('zone').textContent='🏝️ 延和學習群島 · 地圖';$('hint').textContent='點選中央紫色「社會技巧館」進入第一人稱場景';$('movePad').classList.add('hidden');$('lookPad').classList.add('hidden');let sea=cylinder(0,-.75,0,35,.5,'#48cfd4',48);let island=cylinder(0,-.24,0,9,.7,'#fffaf0',12);cylinder(0,-.72,0,9.25,.28,'#d8bc8c',12);for(let i=0;i<14;i++){let a=i*Math.PI*2/14;tree(Math.cos(a)*7,Math.sin(a)*7)}let b=box(0,1,0,3.6,2.4,3.6,'#9c65d9');let roof=new THREE.Mesh(new THREE.ConeGeometry(3,2.2,6),new THREE.MeshLambertMaterial({color:'#784bbb',flatShading:true}));roof.position.set(0,3.25,0);scene.add(roof);b.userData.entry='social';roof.userData.entry='social';cylinder(0,.18,2.05,.85,.27,'#a8d3b7');label('🤝 社會技巧館',0,0);for(let [x,z,cl,txt] of [[-5,-3,'#83bde0','🎼 音樂魔法館'],[5,-3,'#f6b79e','🌿 生活應用館'],[5,4,'#e9bc66','🧩 跨域探究館']]){box(x,.8,z,1.8,1.6,1.8,cl);let a=new THREE.Mesh(new THREE.ConeGeometry(1.5,1.3,4),new THREE.MeshLambertMaterial({color:'#ffffff'}));a.position.set(x,2.2,z);a.rotation.y=Math.PI/4;scene.add(a);label(txt,x,z)}camera.position.set(10,15,18);camera.lookAt(0,0,0)}
+function enterRoom(){uiSound('enter');room='inside';gameAudio.step=0;clear();$('zone').textContent='🤝 社會技巧館 · 第一人稱探索';$('movePad').classList.remove('hidden');$('lookPad').classList.remove('hidden');$('hint').textContent='走近人物，按「對話」；情境有多種故事反應';box(0,-.25,0,24,.5,24,'#a77e62');box(0,4,-12,24,8,.5,'#c5ada0');box(-12,4,0,.5,8,24,'#d9c5bb');box(12,4,0,.5,8,24,'#d9c5bb');box(0,4,12,24,8,.5,'#ded4c9');box(4,1,-8,5,1,1.6,'#ad896d');for(let i=0;i<4;i++)box(4-i*2,.65,-8,1.0,.8,1,'#f6d8bb');box(-9,2,-11.6,2.8,3,.2,'#b8ecf5');box(8,2,-11.6,2.8,3,.2,'#b8ecf5');box(-10,2,1,2,3,1,'#87624f');for(let z=-5;z<8;z+=2.1)for(let x of [-4,4]){box(x,.65,z,2,.15,1.2,'#a47154');box(x,0.3,z-.4,.15,.6,.15,'#755741');box(x,.3,z+.4,.15,.6,.15,'#755741')};for(let i=0;i<3;i++){let z=-7+i*6;let x=i%2===0?-7:7;let s=cylinder(x,1.1,z,.5,2.0,['#f3bda9','#abc9f4','#d9a4d9'][i],9);sphere(x,2.4,z,.54,'#ffdec2');s.userData.task=i;let mark=sphere(x,3.45,z,.26,completed.has(i)?'#a8b4b4':'#ffdc4a');mark.userData.task=i;label(['同學甲｜排隊','同學乙｜誤會','同學丙｜配樂'][i],x,z)}px=0;pz=8;yaw=0;$('score').textContent='社會技巧館｜'+completed.size+' / 3 顆星'}
 function interact(){if(room!=='inside'||lock)return;let pos=[[-7,-7],[7,-1],[-7,5]],nearest=pos.map(([x,z],i)=>({i,d:Math.hypot(px-x,pz-z)})).sort((a,b)=>a.d-b.d)[0];if(nearest.d>4.8){$('hint').textContent='請先走近人物，再按「對話」';return}currentTask=nearest.i;openTask()}
 function openTask(){lock=true;chosenEmotion='';firstAction=-1;chosenAction=-1;tryCount=0;$('dialog').classList.remove('hidden');emotionPhase();}
 $('next').onclick=()=>{};
